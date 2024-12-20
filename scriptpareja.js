@@ -1,25 +1,27 @@
-// Mostrar la fecha actual
-const currentDateElement = document.getElementById('currentDate');
-const now = new Date();
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-currentDateElement.textContent = now.toLocaleDateString('es-ES', options);
+const slides = document.querySelector('.slides');
+const images = document.querySelectorAll('.slides img');
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
 
-// Obtener la ubicación del usuario
-const locationElement = document.getElementById('location');
-const errorElement = document.getElementById('error');
+let index = 0;
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const { latitude, longitude } = position.coords;
-      locationElement.textContent = `Latitud: ${latitude.toFixed(2)}, Longitud: ${longitude.toFixed(2)}`;
-    },
-    (error) => {
-      errorElement.textContent = "No se pudo obtener la ubicación: " + error.message;
-      locationElement.textContent = "No disponible";
-    }
-  );
-} else {
-  errorElement.textContent = "La geolocalización no es compatible con este navegador.";
-  locationElement.textContent = "No disponible";
+function showSlide(index) {
+  const slideWidth = images[0].clientWidth;
+  slides.style.transform = `translateX(${-index * slideWidth}px)`;
 }
+
+nextButton.addEventListener('click', () => {
+  index = (index + 1) % images.length; // Ir al siguiente
+  showSlide(index);
+});
+
+prevButton.addEventListener('click', () => {
+  index = (index - 1 + images.length) % images.length; // Ir al anterior
+  showSlide(index);
+});
+
+// Opcional: deslizar automáticamente cada 5 segundos
+setInterval(() => {
+  index = (index + 1) % images.length;
+  showSlide(index);
+}, 5000);
