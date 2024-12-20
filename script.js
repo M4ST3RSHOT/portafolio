@@ -23,3 +23,4 @@ if (navigator.geolocation) {
   errorElement.textContent = "La geolocalización no es compatible con este navegador.";
   locationElement.textContent = "No disponible";
 }
+a
